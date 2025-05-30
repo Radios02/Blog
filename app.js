@@ -6,10 +6,8 @@ const PORT = 8080;
 const app = express();
 app.use(express.json());
 
-// Statikus fájlok kiszolgálása
 app.use(express.static(path.join(process.cwd(), 'view')));
 
-// Blogok listázása
 app.get("/blogs", (req, res) => {
     try {
         const blogs = db.getBlogs();
@@ -19,7 +17,6 @@ app.get("/blogs", (req, res) => {
     }
 });
 
-// Egy blog lekérdezése ID alapján
 app.get("/blogs/:id", (req, res) => {
     try {
         const blog = db.getBlog(req.params.id);
@@ -32,7 +29,6 @@ app.get("/blogs/:id", (req, res) => {
     }
 });
 
-// Új blog létrehozása
 app.post("/blogs", (req, res) => {
     try {
         const { author, title, category, content } = req.body;
@@ -49,7 +45,6 @@ app.post("/blogs", (req, res) => {
     }
 });
 
-// Blog frissítése
 app.put("/blogs/:id", (req, res) => {
     try {
         const { title, category, content, created_at } = req.body;
@@ -61,14 +56,13 @@ app.put("/blogs/:id", (req, res) => {
         if (updateBlog.changes !== 1) {
             return res.status(404).json({ message: "Blog not found or update failed" });
         }
-        const updatedBlog = db.getBlog(id); // Frissített blog lekérdezése
+        const updatedBlog = db.getBlog(id);
         res.status(200).json(updatedBlog);
     } catch (err) {
         res.status(500).json({ message: `${err}` });
     }
 });
 
-// Blog törlése
 app.delete("/blogs/:id", (req, res) => {
     try {
         const deleteBlog = db.deleteBlog(req.params.id);

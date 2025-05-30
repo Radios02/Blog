@@ -1,7 +1,6 @@
 import Database from "better-sqlite3";
 const db = new Database('./data/blog.sqlite');
 
-// Táblák létrehozása, ha nem léteznek
 db.prepare(`
   CREATE TABLE IF NOT EXISTS blogs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,7 +41,7 @@ export const updateBlog = (id, title, category, content, created_at) => {
 // Blog törlése
 export const deleteBlog = (id) => db.prepare(`DELETE FROM blogs WHERE id = ?`).run(id);
 
-// Példa adatok hozzáadása, ha az adatbázis üres
+// Példa adatok hozzáadása
 const blogs = [
   { author: 'John Doe', title: 'Első Blog', category: 'Tech', content: 'Ez az első blogbejegyzés.', created_at: '2025-05-01', updated_at: '2025-05-02' },
   { author: 'Jane Smith', title: 'Második Blog', category: 'Lifestyle', content: 'Ez a második blogbejegyzés.', created_at: '2025-05-03', updated_at: '2025-05-04' }
